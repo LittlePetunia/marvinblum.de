@@ -1,0 +1,206 @@
+body, html{
+	margin: 0;
+	padding: 0 0 180px 0;
+	background: #f3f3f3;
+	font-size: 14px;
+	font-family: sans-serif;
+	line-height: 2;
+}
+
+#menu{
+	background: #222;
+	height: 50px;
+	margin: 0 0 40px 0;
+}
+
+#menu a{
+	display: block;
+	float: left;
+	color: #EDEDED;
+	text-decoration: none;
+	padding: 12px 20px 10px 20px;
+	text-transform: uppercase;
+}
+
+#menu a:hover{
+	color: #fff;
+}
+
+#menu a img{
+	border-width: 0;
+	width: 20px;
+	height: 20px;
+	margin: 4px 0 -5px 0;
+}
+
+#menu input{
+	background: transparent;
+	border-width: 0;
+	margin: 12px 0 0 10px;
+	padding: 5px 5px 5px 20px;
+	color: #fff;
+	border-width: 0 0 0 1px;
+	border-color: #666;
+	border-radius: 0;
+}
+
+.col-left{
+	float: left;
+	width: 70%;
+}
+
+.col-right{
+	float: left;
+	width: 30%;
+}
+
+.content{
+	margin: 10px;
+	padding: 20px;
+}
+
+.row{
+	display: flex;
+	flex-direction: row;
+}
+
+.profile{
+	display: block;
+	max-width: 120px;
+	max-height: 120px;
+	margin: 0 auto 20px auto;
+}
+
+#footer{
+	position: fixed;
+	width: 100%;
+	height: 140px;
+	background: #222;
+	bottom: 0;
+	color: #EDEDED;
+	padding: 20px 0 20px 0;
+}
+
+#footer a{
+	color: #3c9df7;
+	text-decoration: none;
+}
+
+/* util */
+
+.wrapper{
+	max-width: 1100px;
+	margin: 0 auto 0 auto;
+	padding: 0 20px 0 20px;
+}
+
+.shadow{
+	box-shadow: 0 2px 20px -10px #000;
+}
+
+.bg-white{
+	background: #fff;
+}
+
+.width50{
+	width: 50%;
+}
+
+.center{
+	text-align: center;
+}
+
+.text-right{
+	text-align: right;
+}
+
+.left{
+	float: left;
+}
+
+.right{
+	float: right;
+}
+
+.clear{
+	clear: both;
+}
+
+.date{
+	display: block;
+	margin: -15px 0 10px 0;
+	font-weight: lighter;
+	font-size: 12px;
+}
+
+/* tags */
+
+img{
+	max-width: 100%;
+}
+
+input, textarea{
+	min-width: 80%;
+	border: 1px solid #EDEDED;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 5px;
+	font-size: 14px;
+	font-family: sans-serif;
+}
+
+input[type~='submit']{
+	min-width: 0;
+	padding: 5px 10px 5px 10px;
+	background: #6891a2;
+	color: #fff;
+}
+
+textarea{
+	min-height: 80px;
+}
+
+label{
+	display: block;
+	font-weight: bold;
+	font-size: 12px;
+	margin: 10px 0 0 0;
+	padding: 0 0 0 7px;
+}
+
+hr{
+	border-width: 0;
+	height: 1px;
+	background: #EDEDED;
+	margin: 40px 0 40px 0;
+}
+
+a{
+	color: #6891a2;
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
+h1, h2, h3{
+	font-family: serif;
+	font-weight: normal;
+}
+
+h1{
+	font-size: 36px;
+	margin: 0 0 20px 0;
+}
+
+h2{
+	font-size: 28px;
+	margin: 20px 0 20px 0;
+}
+
+h3{
+	font-size: 16px;
+	text-transform: uppercase;
+	margin: 15px 0 15px 0;
+}
