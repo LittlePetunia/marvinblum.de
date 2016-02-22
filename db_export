@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mongoexport --db $1 --collection xyz --out xyz.json
+
+zip db_export.zip xyz.json
+
+rm xyz.json

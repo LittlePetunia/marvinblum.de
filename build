@@ -1,0 +1,13 @@
+#!/bin/bash
+
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+export GOPATH=/home/marvin/Projekte/marvinblum.de
+go build -ldflags "-s -w" src/main/main.go
+mkdir -p release
+mkdir -p release/mb_v$1
+mv main release/mb_v$1/mb
+cp config.json release/mb_v$1/config.json
+cp -a public release/mb_v$1/public
+git tag $1
+git push origin $1
