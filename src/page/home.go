@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	content, err := ioutil.ReadFile(home_content_file)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return
 	}
 

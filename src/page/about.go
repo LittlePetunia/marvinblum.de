@@ -16,14 +16,14 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	tpl, err := template.ParseFiles(page_template_file)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return
 	}
 
 	content, err := ioutil.ReadFile(about_content_file)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return
 	}
 
@@ -33,6 +33,6 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	err = tpl.Execute(w, page)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 }

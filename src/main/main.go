@@ -70,8 +70,9 @@ func startServer() {
 	mux := http.NewServeMux()
 	mux.Handle("/assets/", http.FileServer(http.Dir(public_dir)))
 	mux.HandleFunc("/", page.HomeHandler)
-	mux.HandleFunc("/articles", page.ArticlesHandler)
 	mux.HandleFunc("/about", page.AboutHandler)
+	mux.HandleFunc("/article/", page.ArticleHandler)
+	mux.HandleFunc("/articles", page.ArticlesHandler)
 
 	if err := http.ListenAndServe(cfg.Host, mux); err != nil {
 		panic(err)

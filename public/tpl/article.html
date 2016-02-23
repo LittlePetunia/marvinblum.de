@@ -39,7 +39,20 @@
 
 		<div class="wrapper">
 			<div class="col-left">
-				{{.Content}}
+				<div class="content bg-white shadow">
+					<h1>{{.Article.Title}}</h1>
+					<span class="article-date">
+						Erstellt: {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert: {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
+					</span>
+
+					{{.Article.Content}}
+				</div>
+
+				<div class="content bg-white shadow">
+					<h2>Kommentare</h2>
+
+					TODO
+				</div>
 			</div>
 
 			<div class="col-right">
