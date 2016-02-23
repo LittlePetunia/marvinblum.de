@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"page"
 )
 
 const (
@@ -67,7 +68,10 @@ func startServer() {
 	log.Print("Starting server on ", cfg.Host)
 
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(public_dir)))
+	mux.Handle("/assets/", http.FileServer(http.Dir(public_dir)))
+	mux.HandleFunc("/", page.HomeHandler)
+	mux.HandleFunc("/articles", page.ArticlesHandler)
+	mux.HandleFunc("/about", page.AboutHandler)
 
 	if err := http.ListenAndServe(cfg.Host, mux); err != nil {
 		panic(err)

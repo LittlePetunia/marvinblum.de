@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{{if .Title}}
+			<title>{{.Title}}</title>
+		{{else}}
+			<title>marvinblum.de</title>
+		{{end}}
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="copyright" content="(c) 2016 Marvin Blum" />
+		<meta name="author" content="Marvin Blum" />
+		
+		<link rel="stylesheet" type="text/css" href="assets/css/layout.css" />
+		<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+	</head>
+	<body>
+		<div id="menu">
+			<div class="wrapper">
+				<div class="left">
+					<a href="/">Home</a>
+					<a href="/articles">Artikel</a>
+					<a href="/about">Über mich</a>
+				</div>
+
+				<div class="right">
+					<input type="text" name="search" placeholder="Suche" />
+				</div>
+
+				<div class="right">
+					<a href="https://github.com/DeKugelschieber" target="_blank"><img src="assets/img/github.png" alt="" /></a>
+				</div>
+
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div class="wrapper">
+			<div class="col-left">
+				{{.Content}}
+			</div>
+
+			<div class="col-right">
+				<div class="content shadow bg-white" style="padding:40px 20px 40px 20px;">
+					{{template "bar.html"}}
+				</div>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+
+		<div id="footer">
+			<div class="wrapper">
+				<div class="row">
+					<div class="width50">
+						<a href="">Home</a><br />
+						<a href="">Artikel</a><br />
+						<a href="">Über mich</a><br /><br />
+						<a href="https://github.com/DeKugelschieber" target="_blank"><img src="assets/img/github.png" alt="" /></a>
+					</div>
+					<div class="width50 text-right">
+						&copy; 2016 Marvin Blum<br />
+						33378 Rheda-Wiedenbrück<br />
+						Schulbusch 29<br />
+						<a href="mailto:admin@marvinblum.de">Kontakt</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

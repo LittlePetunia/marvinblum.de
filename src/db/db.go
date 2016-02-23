@@ -2,7 +2,6 @@ package db
 
 import (
 	"gopkg.in/mgo.v2"
-	//"gopkg.in/mgo.v2/bson"
 	"log"
 )
 
@@ -40,4 +39,9 @@ func setup() {
 // Disconnect from database. Call on shutdown!
 func Disconnect() {
 	session.Close()
+}
+
+// Returns the database session.
+func Get() *mgo.Session {
+	return session
 }
