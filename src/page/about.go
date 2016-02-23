@@ -13,7 +13,7 @@ const (
 )
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(page_template_file)
+	tpl, err := template.ParseFiles(page_template_file, head_template_file, foot_template_file)
 
 	if err != nil {
 		log.Print(err)

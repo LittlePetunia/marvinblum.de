@@ -114,6 +114,17 @@ body, html{
 	font-weight: lighter;
 }
 
+.comment{
+	border:1px solid #EDEDED;
+	padding: 20px;
+	margin: 10px 0 10px 0;
+}
+
+.comment h4{
+	margin: 0 0 10px 0;
+	font-size: 20px;
+}
+
 /* util */
 
 .wrapper{

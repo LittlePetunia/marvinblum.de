@@ -1,0 +1,52 @@
+			</div>
+
+			<div class="col-right">
+				<div class="content shadow bg-white" style="padding:40px 20px 40px 20px;">
+					<img src="assets/img/marvin.png" alt="" class="profile" />
+
+					<h2 class="center">marvinblum.de</h2>
+
+					Willkommen auf meinem Blog. Hier schreibe ich Artikel zum Thema Software Entwicklung und Technologien.
+
+					<h3>Die letzten Artikel</h3>
+
+					{{range $article := .NewArticles}}
+						<div class="new_article">
+							{{if $article.Picture}}
+								<img src="{{$article.Picture}}" alt="" class="left" />
+							{{else}}
+								<img src="assets/img/article_placeholder.png" alt="" class="left" />
+							{{end}}
+
+							<a href="/article/{{$article.Link}}"><h4 class="left">{{$article.Title}}</h4></a>
+							<div class="clear"></div>
+						</div>
+					{{else}}
+						Keine Artikel gefunden.
+					{{end}}
+				</div>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+
+		<div id="footer">
+			<div class="wrapper">
+				<div class="row">
+					<div class="width50">
+						<a href="/">Home</a><br />
+						<a href="/articles">Artikel</a><br />
+						<a href="/about">Über mich</a><br /><br />
+						<a href="https://github.com/DeKugelschieber" target="_blank"><img src="assets/img/github.png" alt="" /></a>
+					</div>
+					<div class="width50 text-right">
+						&copy; 2016 Marvin Blum<br />
+						33378 Rheda-Wiedenbrück<br />
+						Schulbusch 29<br />
+						<a href="mailto:admin@marvinblum.de">Kontakt</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

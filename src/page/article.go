@@ -17,7 +17,7 @@ type articlePage struct {
 }
 
 func ArticleHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(article_template_file)
+	tpl, err := template.ParseFiles(article_template_file, head_template_file, foot_template_file)
 
 	if err != nil {
 		log.Print(err)

@@ -8,13 +8,15 @@ import (
 )
 
 const (
+	head_template_file = "public/tpl/head.html"
+	foot_template_file = "public/tpl/foot.html"
 	page_template_file = "public/tpl/page.html"
 	home_content_file  = "public/tpl/home.html"
 	bar_new_article_n  = 5
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(page_template_file)
+	tpl, err := template.ParseFiles(page_template_file, head_template_file, foot_template_file)
 
 	if err != nil {
 		log.Print(err)
