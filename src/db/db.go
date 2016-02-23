@@ -41,7 +41,7 @@ func Disconnect() {
 	session.Close()
 }
 
-// Returns the database session.
-func Get() *mgo.Session {
-	return session
+// Returns the database.
+func Get() *mgo.Database {
+	return db
 }

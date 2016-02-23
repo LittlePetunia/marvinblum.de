@@ -9,12 +9,12 @@ import (
 
 const (
 	page_template_file = "public/tpl/page.html"
-	bar_template_file  = "public/tpl/bar.html"
 	home_content_file  = "public/tpl/home.html"
+	bar_new_article_n  = 5
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(page_template_file, bar_template_file)
+	tpl, err := template.ParseFiles(page_template_file)
 
 	if err != nil {
 		log.Print(err)
@@ -28,7 +28,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := Page{"", template.HTML(content)}
+	page := newPage()
+	page.Content = template.HTML(content)
 	err = tpl.Execute(w, page)
 
 	if err != nil {

@@ -13,7 +13,7 @@ const (
 )
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(page_template_file, bar_template_file)
+	tpl, err := template.ParseFiles(page_template_file)
 
 	if err != nil {
 		log.Fatal(err)
@@ -27,7 +27,9 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := Page{about_content_title, template.HTML(content)}
+	page := newPage()
+	page.Title = about_content_title
+	page.Content = template.HTML(content)
 	err = tpl.Execute(w, page)
 
 	if err != nil {

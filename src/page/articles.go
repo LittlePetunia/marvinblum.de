@@ -7,14 +7,14 @@ import (
 )
 
 func ArticlesHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, err := template.ParseFiles(page_template_file, bar_template_file)
+	tpl, err := template.ParseFiles(page_template_file)
 
 	if err != nil {
 		log.Print(err)
 		return
 	}
 
-	page := Page{"", template.HTML("")}
+	page := newPage()
 	err = tpl.Execute(w, page)
 
 	if err != nil {
