@@ -29,3 +29,16 @@ func AddComment(articleId bson.ObjectId, name, email, content string) bool {
 
 	return true
 }
+
+// Removes a comment by its creation date.
+func RemoveCommentByDate(articleId bson.ObjectId, date time.Time) bool {
+	err := db.Get().C("article").Update(bson.M{"_id": articleId},
+		bson.M{"$pull": bson.M{"comments": bson.M{"created": date}}})
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
+}

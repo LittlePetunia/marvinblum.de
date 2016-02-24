@@ -74,6 +74,7 @@ func startServer() {
 	mux.HandleFunc("/article/", page.ArticleHandler)
 	mux.HandleFunc("/articles", page.ArticlesHandler)
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
+	mux.HandleFunc("/removeComment", page.RemoveCommentHandler) // TODO middleware
 
 	if err := http.ListenAndServe(cfg.Host, mux); err != nil {
 		panic(err)

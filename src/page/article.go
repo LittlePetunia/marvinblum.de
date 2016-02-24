@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 	"util"
 )
 
@@ -28,6 +29,15 @@ type saveComment struct {
 }
 
 type saveCommentResponse struct {
+	Success bool `json:"success"`
+}
+
+type removeComment struct {
+	Article string    `json:"article"` // article ID
+	Created time.Time `json:"created"`
+}
+
+type removeCommentResponse struct {
 	Success bool `json:"success"`
 }
 
@@ -90,6 +100,27 @@ func AddCommentHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	respJson, _ := json.Marshal(resp)
+	w.Write(respJson)
+}
+
+func RemoveCommentHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	remove := removeComment{}
+
+	if err := decoder.Decode(&remove); err != nil {
+		log.Print(err)
+		return
+	}
+
+	article := blog.FindArticleById(remove.Article)
+
+	if article == nil {
+		log.Print("Article not found with ID: ", remove.Article)
+		return
+	}
+
+	resp := removeCommentResponse{blog.RemoveCommentByDate(article.Id, remove.Created)}
 	respJson, _ := json.Marshal(resp)
 	w.Write(respJson)
 }

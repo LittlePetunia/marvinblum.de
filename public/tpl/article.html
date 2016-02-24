@@ -32,11 +32,17 @@
 	<hr />
 	<h2>Kommentare</h2>
 
+	{{$loggedin := .LoggedIn}}
 	{{range $comment := .Article.Comments}}
-		<div class="comment">
+		<div class="comment" created='{{$comment.Created.Format "2006-01-02T15:04:05.999999-07:00"}}'>
 			<h4>{{$comment.Author}} - {{$comment.Created.Day}}. {{$comment.Created.Month}} {{$comment.Created.Year}}</h4>
 
 			{{$comment.Content}}
+
+			{{if $loggedin}}
+				<br /><br />
+				<span class="link deleteComment" comment='{{$comment.Created.Format "2006-01-02T15:04:05.999999-07:00"}}'>Kommentar löschen</span>
+			{{end}}
 		</div>
 	{{else}}
 		Keine Kommentare.

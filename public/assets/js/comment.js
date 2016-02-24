@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	// add comment
 	var input_error = $('#input_error');
 	var saved = $('#success');
 	input_error.hide();
@@ -21,7 +22,9 @@ $(document).ready(function(){
 				email: email,
 				comment:comment,
 				article: article}), function(resp){
-				if(resp.success){
+				var json = JSON.parse(resp);
+
+				if(json.success){
 					saved.show();
 					// TODO add to html
 				}
@@ -30,5 +33,19 @@ $(document).ready(function(){
 				}
 			});
 		}
+	});
+
+	// delete comment
+	$('.deleteComment').click(function(){
+		var article = $('#article').val();
+		var created = $(this).attr('comment');
+
+		$.post('/removeComment', JSON.stringify({article: article, created: created}), function(resp){
+			var json = JSON.parse(resp);
+
+			if(json.success){
+				$('[created="'+created+'"]').remove();
+			}
+		});
 	});
 });
