@@ -14,7 +14,7 @@ type page struct {
 // Creates a new page filled with basic content.
 func newPage() *page {
 	page := page{}
-	page.NewArticles = *blog.GetArticles(bar_new_article_n)
+	page.NewArticles = *blog.GetArticles(bar_new_article_n, false)
 
 	return &page
 }

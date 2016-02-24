@@ -1,6 +1,6 @@
 body, html{
 	margin: 0;
-	padding: 0 0 180px 0;
+	padding: 40px 0 0 0;
 	background: #f3f3f3;
 	font-size: 14px;
 	font-family: sans-serif;
@@ -8,9 +8,11 @@ body, html{
 }
 
 #menu{
+	width: 100%;
+	position: fixed;
+	top: 0;
 	background: #222;
 	height: 50px;
-	margin: 0 0 40px 0;
 }
 
 #menu a{
@@ -76,13 +78,13 @@ body, html{
 }
 
 #footer{
-	position: fixed;
 	width: 100%;
 	height: 140px;
 	background: #222;
 	bottom: 0;
 	color: #EDEDED;
 	padding: 20px 0 20px 0;
+	margin: 40px 0 0 0;
 }
 
 #footer a{
@@ -172,13 +174,25 @@ body, html{
 	font-size: 12px;
 }
 
+.success, .error{
+	border-radius: 5px;
+	margin: 15px 0 15px 0;
+	padding: 10px;
+	color: #fff;
+	background: #00a818;
+}
+
+.error{
+	background: #f00;
+}
+
 /* tags */
 
 img{
 	max-width: 100%;
 }
 
-input, textarea{
+input, textarea, button{
 	min-width: 80%;
 	border: 1px solid #EDEDED;
 	border-radius: 5px;
@@ -188,11 +202,15 @@ input, textarea{
 	font-family: sans-serif;
 }
 
-input[type~='submit']{
+input[type~='submit'], button{
 	min-width: 0;
 	padding: 5px 10px 5px 10px;
 	background: #6891a2;
 	color: #fff;
+}
+
+button:hover{
+	cursor: pointer;
 }
 
 textarea{

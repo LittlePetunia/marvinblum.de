@@ -1,0 +1,15 @@
+{{template "head.html" .}}
+<div class="content bg-white shadow">
+	<h1>Artikel</h1>
+
+	{{if .Articles}}
+		{{range $article := .Articles}}
+			<h3>
+				<a href="/article/{{$article.Link}}">{{$article.Title}}</a> - {{$article.Created.Day}}. {{$article.Created.Month}} {{$article.Created.Year}}
+			</h3>
+		{{end}}
+	{{else}}
+		Keine Artikel gefunden.
+	{{end}}
+</div>
+{{template "foot.html" .}}

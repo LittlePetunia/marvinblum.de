@@ -73,6 +73,7 @@ func startServer() {
 	mux.HandleFunc("/about", page.AboutHandler)
 	mux.HandleFunc("/article/", page.ArticleHandler)
 	mux.HandleFunc("/articles", page.ArticlesHandler)
+	mux.HandleFunc("/addComment", page.AddCommentHandler)
 
 	if err := http.ListenAndServe(cfg.Host, mux); err != nil {
 		panic(err)

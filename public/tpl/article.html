@@ -11,7 +11,23 @@
 <div class="content bg-white shadow">
 	<h2>Kommentar schreiben</h2>
 
-	...
+	<div class="error" id="input_error">
+		Bitte überprüfe deine Eingabe. Alle Felder müssen ausgefüllt werden.
+	</div>
+
+	<div class="success" id="success">
+		Kommentar hinzugefügt.
+	</div>
+
+	<label>Name:</label>
+	<input type="text" id="name" />
+	<label>E-Mail (wird nicht veröffentlicht):</label>
+	<input type="email" id="email" />
+	<label>Kommentar</label>
+	<textarea id="comment"></textarea>
+	<br />
+	<input type="hidden" id="article" value="{{.Article.Id.Hex}}" />
+	<button id="send">Absenden</button>
 
 	<hr />
 	<h2>Kommentare</h2>

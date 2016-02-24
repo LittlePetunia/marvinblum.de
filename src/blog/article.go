@@ -2,6 +2,7 @@ package blog
 
 import (
 	"db"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"html/template"
 	"log"
@@ -19,27 +20,27 @@ type Article struct {
 	Comments []Comment     `bson:"comments"`
 }
 
-type Comment struct {
-	Created time.Time `bson:"created"`
-	Author  string    `bson:"author"`
-	Email   string    `bson:"email"`
-	Content string    `bson:"content"`
-}
-
 // Returns the n newest articles or all if n is <= 0.
-func GetArticles(n int) *[]Article {
+// If full is not set to true, only the id, link, title and created will be returned.
+func GetArticles(n int, full bool) *[]Article {
 	if n < 0 {
 		n = 0
 	}
 
 	articles := make([]Article, n)
-	var err error
+	var query *mgo.Query
+
+	if full {
+		query = db.Get().C("article").Find(bson.M{}).Sort("created")
+	} else {
+		query = db.Get().C("article").Find(bson.M{}).Select(bson.M{"_id": 1, "link": 1, "created": 1, "title": 1}).Sort("created")
+	}
 
 	if n > 0 {
-		err = db.Get().C("article").Find(bson.M{}).Sort("created").Limit(n).All(&articles)
-	} else {
-		err = db.Get().C("article").Find(bson.M{}).Sort("created").All(&articles)
+		query.Limit(n)
 	}
+
+	err := query.All(&articles)
 
 	if err != nil {
 		log.Print(err)
@@ -47,6 +48,25 @@ func GetArticles(n int) *[]Article {
 	}
 
 	return &articles
+}
+
+// Finds an article by ID.
+// The ID will be parsed to ObjectId if valid. nil will be returned on error.
+func FindArticleById(id string) *Article {
+	if !db.IsValidId(id) {
+		log.Print("ID ", id, " is not valid")
+		return nil
+	}
+
+	var article Article
+	err := db.Get().C("article").Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&article)
+
+	if err != nil {
+		log.Print(err)
+		return nil
+	}
+
+	return &article
 }
 
 // Finds an article by its normalized title (link).

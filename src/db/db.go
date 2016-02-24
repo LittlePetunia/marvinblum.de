@@ -45,3 +45,8 @@ func Disconnect() {
 func Get() *mgo.Database {
 	return db
 }
+
+// Tests if passed string is a valid ObjectId and can be passed to ObjectHexId.
+func IsValidId(id string) bool {
+	return len(id) == 24
+}
