@@ -1,8 +1,37 @@
 {{template "head.html" .}}
 <div class="content bg-white shadow">
+	{{if .LoggedIn}}
+		<h3>Artikel bearbeiten</h3>
+
+		<div class="error" id="article_input_error">
+			Bitte überprüfe deine Eingabe. Die Felder Titel und URL müssen gefüllt sein.
+		</div>
+
+		<label>Titel:</label>
+		<input type="text" id="title" value="{{.Article.Title}}" />
+		<label>URL (z.B.: Mein_Artikel):</label>
+		<input type="text" id="link" value="{{.Article.Link}}" />
+		<label>Bild (URL):</label>
+		<input type="text" id="picture" value="{{.Article.Picture}}" />
+		<label>Inhalt</label>
+		<textarea id="content">{{.Article.Content}}</textarea>
+		<br />
+		<button id="save">Speichern</button>
+
+		<hr />
+
+		<script type="text/javascript">
+			CKEDITOR.replace('content');
+		</script>
+	{{end}}
+
+	{{if .Article.Picture}}
+		<img src="{{.Article.Picture}}" alt="" />
+	{{end}}
+
 	<h1>{{.Article.Title}}</h1>
 	<span class="article-date">
-		Erstellt: {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert: {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
+		Erstellt am {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert am {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
 	</span>
 
 	{{.Article.Content}}

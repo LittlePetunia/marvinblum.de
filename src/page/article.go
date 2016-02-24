@@ -28,17 +28,9 @@ type saveComment struct {
 	Comment string `json:"comment"`
 }
 
-type saveCommentResponse struct {
-	Success bool `json:"success"`
-}
-
 type removeComment struct {
 	Article string    `json:"article"` // article ID
 	Created time.Time `json:"created"`
-}
-
-type removeCommentResponse struct {
-	Success bool `json:"success"`
 }
 
 type addArticle struct {
@@ -47,7 +39,13 @@ type addArticle struct {
 	Picture string `json:"picture"`
 }
 
-type addArticleResponse struct {
+type saveArticle struct {
+	addArticle
+	Article string `json:"article"`
+	Content string `json:"content"`
+}
+
+type response struct {
 	Success bool `json:"success"`
 }
 
@@ -90,7 +88,7 @@ func AddCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := saveCommentResponse{true}
+	resp := response{true}
 
 	// TODO check email
 	if util.IsEmpty(save.Name) || util.IsEmpty(save.Email) || util.IsEmpty(save.Comment) {
@@ -130,7 +128,7 @@ func RemoveCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := removeCommentResponse{blog.RemoveCommentByDate(article.Id, remove.Created)}
+	resp := response{blog.RemoveCommentByDate(article.Id, remove.Created)}
 	respJson, _ := json.Marshal(resp)
 	w.Write(respJson)
 }
@@ -144,7 +142,7 @@ func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := addArticleResponse{false}
+	resp := response{false}
 
 	if !util.IsEmpty(add.Title) && !util.IsEmpty(add.Link) {
 		if util.IsEmpty(add.Picture) {
@@ -152,6 +150,41 @@ func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		resp.Success = blog.AddArticle(add.Title, add.Link, add.Picture)
+	}
+
+	respJson, _ := json.Marshal(resp)
+	w.Write(respJson)
+}
+
+func SaveArticleHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	save := saveArticle{}
+
+	if err := decoder.Decode(&save); err != nil {
+		log.Print(err)
+		return
+	}
+
+	resp := response{false}
+
+	if !util.IsEmpty(save.Title) && !util.IsEmpty(save.Link) {
+		if util.IsEmpty(save.Picture) {
+			save.Picture = ""
+		}
+
+		article := blog.FindArticleById(save.Article)
+
+		if article == nil {
+			log.Print("Article not found with ID: ", save.Article)
+			return
+		}
+
+		article.Title = save.Title
+		article.Link = save.Link
+		article.Picture = save.Picture
+		article.Content = template.HTML(save.Content)
+
+		resp.Success = blog.SaveArticle(article)
 	}
 
 	respJson, _ := json.Marshal(resp)

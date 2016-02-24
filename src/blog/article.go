@@ -99,3 +99,17 @@ func AddArticle(title, link, picture string) bool {
 
 	return true
 }
+
+// Saves and existing article.
+func SaveArticle(article *Article) bool {
+	article.Updated = time.Now()
+
+	err := db.Get().C("article").Update(bson.M{"_id": article.Id}, article)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
+}

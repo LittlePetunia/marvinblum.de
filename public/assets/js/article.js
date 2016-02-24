@@ -1,17 +1,17 @@
 $(document).ready(function(){
 	// add article
-	var input_error = $('#input_error');
-	input_error.hide();
+	var article_input_error = $('#article_input_error');
+	article_input_error.hide();
 
 	$('#create').click(function(){
-		input_error.hide();
+		article_input_error.hide();
 
 		var title = $('#title').val();
 		var link = $('#link').val();
 		var picture = $('#picture').val();
 
 		if(title == "" && link == ""){
-			input_error.show();
+			article_input_error.show();
 		}
 		else{
 			$.post('/addArticle', JSON.stringify({title: title,
@@ -23,7 +23,38 @@ $(document).ready(function(){
 					location.reload();
 				}
 				else{
-					input_error.show();
+					article_input_error.show();
+				}
+			});
+		}
+	});
+
+	// edit article
+	$('#save').click(function(){
+		article_input_error.hide();
+
+		var article = $('#article').val();
+		var title = $('#title').val();
+		var link = $('#link').val();
+		var picture = $('#picture').val();
+		var content = CKEDITOR.instances.content.getData();
+
+		if(title == "" && link == ""){
+			article_input_error.show();
+		}
+		else{
+			$.post('/saveArticle', JSON.stringify({article: article,
+				title: title,
+				link: link,
+				picture: picture,
+				content: content}), function(resp){
+				var json = JSON.parse(resp);
+
+				if(json.success){
+					location.reload();
+				}
+				else{
+					article_input_error.show();
 				}
 			});
 		}
