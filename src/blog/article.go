@@ -31,9 +31,9 @@ func GetArticles(n int, full bool) *[]Article {
 	var query *mgo.Query
 
 	if full {
-		query = db.Get().C("article").Find(bson.M{}).Sort("created")
+		query = db.Get().C("article").Find(bson.M{}).Sort("-created")
 	} else {
-		query = db.Get().C("article").Find(bson.M{}).Select(bson.M{"_id": 1, "link": 1, "created": 1, "title": 1}).Sort("created")
+		query = db.Get().C("article").Find(bson.M{}).Select(bson.M{"_id": 1, "link": 1, "created": 1, "title": 1}).Sort("-created")
 	}
 
 	if n > 0 {
@@ -80,4 +80,22 @@ func FindArticleByLink(link string) *Article {
 	}
 
 	return &article
+}
+
+// Creates a new article with given title, link and picture.
+func AddArticle(title, link, picture string) bool {
+	article := Article{Created: time.Now(),
+		Updated: time.Now(),
+		Link:    link,
+		Title:   title,
+		Picture: picture}
+
+	err := db.Get().C("article").Insert(article)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
 }

@@ -41,6 +41,16 @@ type removeCommentResponse struct {
 	Success bool `json:"success"`
 }
 
+type addArticle struct {
+	Title   string `json:"title"`
+	Link    string `json:"link"`
+	Picture string `json:"picture"`
+}
+
+type addArticleResponse struct {
+	Success bool `json:"success"`
+}
+
 func ArticleHandler(w http.ResponseWriter, r *http.Request) {
 	tpl, err := template.ParseFiles(article_template_file, head_template_file, foot_template_file)
 
@@ -121,6 +131,29 @@ func RemoveCommentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := removeCommentResponse{blog.RemoveCommentByDate(article.Id, remove.Created)}
+	respJson, _ := json.Marshal(resp)
+	w.Write(respJson)
+}
+
+func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	add := addArticle{}
+
+	if err := decoder.Decode(&add); err != nil {
+		log.Print(err)
+		return
+	}
+
+	resp := addArticleResponse{false}
+
+	if !util.IsEmpty(add.Title) && !util.IsEmpty(add.Link) {
+		if util.IsEmpty(add.Picture) {
+			add.Picture = ""
+		}
+
+		resp.Success = blog.AddArticle(add.Title, add.Link, add.Picture)
+	}
+
 	respJson, _ := json.Marshal(resp)
 	w.Write(respJson)
 }

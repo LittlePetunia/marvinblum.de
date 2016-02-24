@@ -2,6 +2,25 @@
 <div class="content bg-white shadow">
 	<h1>Artikel</h1>
 
+	{{if .LoggedIn}}
+		<h3>Neuer Artikel</h3>
+
+		<div class="error" id="input_error">
+			Bitte überprüfe deine Eingabe. Die Felder Titel und URL müssen gefüllt sein.
+		</div>
+
+		<label>Titel:</label>
+		<input type="text" id="title" />
+		<label>URL (z.B.: Mein_Artikel):</label>
+		<input type="text" id="link" />
+		<label>Bild (URL):</label>
+		<input type="text" id="picture" />
+		<br />
+		<button id="create">Erstellen</button>
+
+		<hr />
+	{{end}}
+
 	{{if .Articles}}
 		{{range $article := .Articles}}
 			<h3>

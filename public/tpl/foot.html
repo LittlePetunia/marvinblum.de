@@ -12,14 +12,20 @@
 
 					{{range $article := .NewArticles}}
 						<div class="new_article">
-							{{if $article.Picture}}
-								<img src="{{$article.Picture}}" alt="" class="left" />
-							{{else}}
-								<img src="assets/img/article_placeholder.png" alt="" class="left" />
-							{{end}}
-
-							<a href="/article/{{$article.Link}}"><h4 class="left">{{$article.Title}}</h4></a>
-							<div class="clear"></div>
+							<table>
+								<tr>
+									<td>
+								{{if $article.Picture}}
+									<img src="{{$article.Picture}}" alt="" />
+								{{else}}
+									<img src="assets/img/article_placeholder.png" alt="" />
+								{{end}}
+									</td>
+									<td>
+										<a href="/article/{{$article.Link}}">{{$article.Title}}</a>
+									</td>
+								</tr>
+							</table>
 						</div>
 					{{else}}
 						Keine Artikel gefunden.
