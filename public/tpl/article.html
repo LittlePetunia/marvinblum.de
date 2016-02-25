@@ -13,6 +13,8 @@
 		<input type="text" id="link" value="{{.Article.Link}}" />
 		<label>Bild (URL):</label>
 		<input type="text" id="picture" value="{{.Article.Picture}}" />
+		<label>Headline</label>
+		<textarea id="headline">{{.Article.Headline}}</textarea>
 		<label>Inhalt</label>
 		<textarea id="content">{{.Article.Content}}</textarea>
 		<br />
@@ -21,6 +23,7 @@
 		<hr />
 
 		<script type="text/javascript">
+			CKEDITOR.replace('headline');
 			CKEDITOR.replace('content');
 		</script>
 	{{end}}
@@ -33,6 +36,8 @@
 	<span class="article-date">
 		Erstellt am {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert am {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
 	</span>
+
+	<span style="font-weight:bold;">{{.Article.Headline}}</span>
 
 	{{.Article.Content}}
 </div>

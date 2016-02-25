@@ -34,9 +34,10 @@ type removeComment struct {
 }
 
 type addArticle struct {
-	Title   string `json:"title"`
-	Link    string `json:"link"`
-	Picture string `json:"picture"`
+	Title    string `json:"title"`
+	Link     string `json:"link"`
+	Picture  string `json:"picture"`
+	Headline string `json:"headline"`
 }
 
 type saveArticle struct {
@@ -149,7 +150,7 @@ func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
 			add.Picture = ""
 		}
 
-		resp.Success = blog.AddArticle(add.Title, add.Link, add.Picture)
+		resp.Success = blog.AddArticle(add.Title, add.Link, add.Picture, add.Headline)
 	}
 
 	respJson, _ := json.Marshal(resp)
@@ -182,6 +183,7 @@ func SaveArticleHandler(w http.ResponseWriter, r *http.Request) {
 		article.Title = save.Title
 		article.Link = save.Link
 		article.Picture = save.Picture
+		article.Headline = template.HTML(save.Headline)
 		article.Content = template.HTML(save.Content)
 
 		resp.Success = blog.SaveArticle(article)

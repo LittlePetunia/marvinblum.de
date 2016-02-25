@@ -121,13 +121,6 @@ body, html{
 	margin: 10px 0 0 0;
 }
 
-.article-date{
-	display: block;
-	margin: -30px 0 40px 0;
-	font-size: 12px;
-	font-weight: lighter;
-}
-
 .comment{
 	border:1px solid #EDEDED;
 	padding: 20px;
@@ -155,8 +148,22 @@ body, html{
 	background: #fff;
 }
 
-.width50{
-	width: 50%;
+.article{
+	float: left;
+	width: 48%;
+	height: 600px;
+	margin: 0 1% 1% 1%;
+	overflow: hidden;
+}
+
+.article .wrapper{
+	padding: 20px;
+}
+
+.article img{
+	display: block;
+	max-height: 200px;
+	margin: 0 auto 20px auto;
 }
 
 .center{
@@ -257,6 +264,7 @@ a:hover, .link:hover{
 h1, h2, h3, h4{
 	font-family: serif;
 	font-weight: normal;
+	line-height: 1.2;
 }
 
 h1{

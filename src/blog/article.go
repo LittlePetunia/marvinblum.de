@@ -16,12 +16,13 @@ type Article struct {
 	Updated  time.Time     `bson:"updated"`
 	Picture  string        `bson:"picture"`
 	Title    string        `bson:"title"`
+	Headline template.HTML `bson:"headline"`
 	Content  template.HTML `bson:"content"`
 	Comments []Comment     `bson:"comments"`
 }
 
 // Returns the n newest articles or all if n is <= 0.
-// If full is not set to true, only the id, link, title and created will be returned.
+// If full is not set to true, only the id, link, title, headline, picture and created will be returned.
 func GetArticles(n int, full bool) *[]Article {
 	if n < 0 {
 		n = 0
@@ -33,7 +34,7 @@ func GetArticles(n int, full bool) *[]Article {
 	if full {
 		query = db.Get().C("article").Find(bson.M{}).Sort("-created")
 	} else {
-		query = db.Get().C("article").Find(bson.M{}).Select(bson.M{"_id": 1, "link": 1, "created": 1, "title": 1}).Sort("-created")
+		query = db.Get().C("article").Find(bson.M{}).Select(bson.M{"_id": 1, "link": 1, "created": 1, "title": 1, "headline": 1, "picture": 1}).Sort("-created")
 	}
 
 	if n > 0 {
@@ -83,12 +84,13 @@ func FindArticleByLink(link string) *Article {
 }
 
 // Creates a new article with given title, link and picture.
-func AddArticle(title, link, picture string) bool {
+func AddArticle(title, link, picture, headline string) bool {
 	article := Article{Created: time.Now(),
-		Updated: time.Now(),
-		Link:    link,
-		Title:   title,
-		Picture: picture}
+		Updated:  time.Now(),
+		Link:     link,
+		Title:    title,
+		Picture:  picture,
+		Headline: template.HTML(headline)}
 
 	err := db.Get().C("article").Insert(article)
 

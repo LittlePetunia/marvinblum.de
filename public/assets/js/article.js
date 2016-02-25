@@ -9,6 +9,7 @@ $(document).ready(function(){
 		var title = $('#title').val();
 		var link = $('#link').val();
 		var picture = $('#picture').val();
+		var headline = CKEDITOR.instances.headline.getData();
 
 		if(title == "" && link == ""){
 			article_input_error.show();
@@ -16,7 +17,8 @@ $(document).ready(function(){
 		else{
 			$.post('/addArticle', JSON.stringify({title: title,
 				link: link,
-				picture: picture}), function(resp){
+				picture: picture,
+				headline: headline}), function(resp){
 				var json = JSON.parse(resp);
 
 				if(json.success){
@@ -37,6 +39,7 @@ $(document).ready(function(){
 		var title = $('#title').val();
 		var link = $('#link').val();
 		var picture = $('#picture').val();
+		var headline = CKEDITOR.instances.headline.getData();
 		var content = CKEDITOR.instances.content.getData();
 
 		if(title == "" && link == ""){
@@ -47,6 +50,7 @@ $(document).ready(function(){
 				title: title,
 				link: link,
 				picture: picture,
+				headline: headline,
 				content: content}), function(resp){
 				var json = JSON.parse(resp);
 
