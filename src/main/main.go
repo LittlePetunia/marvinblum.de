@@ -76,6 +76,7 @@ func startServer() {
 	mux.HandleFunc("/articles", page.ArticlesHandler)
 	mux.HandleFunc("/addArticle", page.AddArticleHandler)
 	mux.HandleFunc("/saveArticle", page.SaveArticleHandler)
+	mux.HandleFunc("/search", page.SearchArticleHandler)
 
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
 	mux.HandleFunc("/removeComment", page.RemoveCommentHandler) // TODO middleware

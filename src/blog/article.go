@@ -115,3 +115,18 @@ func SaveArticle(article *Article) bool {
 
 	return true
 }
+
+// Searchs for an article by keywords in its content and title.
+func SearchArticles(search string) *[]Article {
+	articles := make([]Article, 0)
+	err := db.Get().C("article").Pipe([]bson.M{
+		bson.M{"$match": bson.M{"$text": bson.M{"$search": search}}},
+		bson.M{"$sort": bson.M{"title": 1}}}).All(&articles)
+
+	if err != nil {
+		log.Print(err)
+		return nil
+	}
+
+	return &articles
+}

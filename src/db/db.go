@@ -33,7 +33,21 @@ func Connect(host, database string) {
 func setup() {
 	log.Print("Setting up database")
 
-	// ...
+	// text search
+	weights := make(map[string]int, 2)
+	weights["title"] = 3
+	weights["headline"] = 2
+	weights["content"] = 1
+	articleTextSearch := mgo.Index{
+		Name:    "article_text_search",
+		Key:     []string{"$text:title", "$text:headline", "$text:content"},
+		Weights: weights,
+		Unique:  false,
+		Sparse:  true}
+
+	if err := db.C("article").EnsureIndex(articleTextSearch); err != nil {
+		panic(err)
+	}
 }
 
 // Disconnect from database. Call on shutdown!

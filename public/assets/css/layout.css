@@ -134,6 +134,10 @@ body, html{
 
 /* util */
 
+.width50{
+	width: 50%;
+}
+
 .wrapper{
 	max-width: 1100px;
 	margin: 0 auto 0 auto;
