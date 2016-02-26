@@ -1,0 +1,87 @@
+{{template "head.html" .}}
+<div class="content bg-white shadow">
+	{{if .LoggedIn}}
+		<h3>Artikel bearbeiten</h3>
+
+		<div class="error" id="article_input_error">
+			Bitte überprüfe deine Eingabe. Die Felder Titel und URL müssen gefüllt sein.
+		</div>
+
+		<label>Titel:</label>
+		<input type="text" id="title" value="{{.Article.Title}}" />
+		<label>URL (z.B.: Mein_Artikel):</label>
+		<input type="text" id="link" value="{{.Article.Link}}" />
+		<label>Bild (URL):</label>
+		<input type="text" id="picture" value="{{.Article.Picture}}" />
+		<label>Headline</label>
+		<textarea id="headline">{{.Article.Headline}}</textarea>
+		<label>Inhalt</label>
+		<textarea id="content">{{.Article.Content}}</textarea>
+		<br />
+		<button id="save">Speichern</button>
+
+		<hr />
+
+		<script type="text/javascript">
+			CKEDITOR.replace('headline');
+			CKEDITOR.replace('content');
+		</script>
+
+		<button id="removeArticle" class="right">Artikel löschen</button>
+	{{end}}
+
+	{{if .Article.Picture}}
+		<img src="{{.Article.Picture}}" alt="" />
+	{{end}}
+
+	<h1>{{.Article.Title}}</h1>
+	<span class="article-date">
+		Erstellt am {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert am {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
+	</span>
+
+	<span style="font-weight:bold;">{{.Article.Headline}}</span>
+
+	{{.Article.Content}}
+</div>
+
+<div class="content bg-white shadow">
+	<h2>Kommentar schreiben</h2>
+
+	<div class="error" id="input_error">
+		Bitte überprüfe deine Eingabe. Alle Felder müssen ausgefüllt werden.
+	</div>
+
+	<div class="success" id="success">
+		Kommentar hinzugefügt.
+	</div>
+
+	<label>Name:</label>
+	<input type="text" id="name" />
+	<label>E-Mail (wird nicht veröffentlicht):</label>
+	<input type="email" id="email" />
+	<label>Kommentar</label>
+	<textarea id="comment"></textarea>
+	<br />
+	<input type="hidden" id="article" value="{{.Article.Id.Hex}}" />
+	<button id="send">Absenden</button>
+
+	<hr />
+	<h2>Kommentare</h2>
+
+	{{$loggedin := .LoggedIn}}
+	{{range $comment := .Article.Comments}}
+		<div class="comment" created='{{$comment.Created.Format "2006-01-02T15:04:05.999999-07:00"}}'>
+			<h4>{{$comment.Author}} - {{$comment.Created.Day}}. {{$comment.Created.Month}} {{$comment.Created.Year}}</h4>
+
+			{{$comment.Content}}
+
+			{{if $loggedin}}
+				<br /><br />
+				<span class="link deleteComment" comment='{{$comment.Created.Format "2006-01-02T15:04:05.999999-07:00"}}'>Kommentar löschen</span>
+			{{end}}
+		</div>
+	{{else}}
+		Keine Kommentare.
+	{{end}}
+</div>
+{{template "foot.html" .}}
