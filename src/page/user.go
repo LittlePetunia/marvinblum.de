@@ -111,12 +111,14 @@ func SessionMiddleware(next http.Handler) http.Handler {
 		cookie, err := r.Cookie(cookie_name)
 
 		if err != nil {
+			w.Write([]byte("Not logged in!"))
 			return
 		}
 
 		token := cookie.Value
 
 		if !userSession.LoggedIn(token) {
+			w.Write([]byte("Not logged in!"))
 			return
 		}
 

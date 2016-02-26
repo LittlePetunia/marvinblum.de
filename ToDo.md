@@ -6,6 +6,6 @@
 * ~~articles on home page~~
 * ~~login, logout~~
 * ~~session middleware~~
-* asset upload
+* ~~asset upload~~
 * ~~article search function~~
 * ~~remove article~~

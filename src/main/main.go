@@ -52,9 +52,9 @@ func startServer() {
 	mux.HandleFunc("/search", page.SearchArticleHandler)
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
 	mux.Handle("/removeComment", page.SessionMiddleware(http.HandlerFunc(page.RemoveCommentHandler)))
-
 	mux.HandleFunc("/login", page.LoginHandler)
 	mux.Handle("/logout", page.SessionMiddleware(http.HandlerFunc(page.LogoutHandler)))
+	mux.Handle("/upload", page.SessionMiddleware(http.HandlerFunc(page.UploadHandler)))
 
 	if err := http.ListenAndServe(config.Host, mux); err != nil {
 		panic(err)

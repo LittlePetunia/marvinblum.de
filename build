@@ -8,6 +8,7 @@ mkdir -p release
 mkdir -p release/mb_v$1
 mv main release/mb_v$1/mb
 cp config.json release/mb_v$1/config.json
+rm -r public/assets/article_pictures
 cp -a public release/mb_v$1/public
 git tag $1
 git push origin $1
