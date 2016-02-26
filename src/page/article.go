@@ -71,7 +71,7 @@ func ArticleHandler(w http.ResponseWriter, r *http.Request) {
 		article = &blog.Article{}
 	}
 
-	page := newPage()
+	page := newPage(r)
 	pageWithArticle := articlePage{*page, *article}
 	err = tpl.Execute(w, pageWithArticle)
 

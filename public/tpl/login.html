@@ -1,0 +1,29 @@
+{{template "head.html" .}}
+
+<div class="content bg-white shadow">
+	<h1>Login</h1>
+
+	<div class="error" id="login_error">
+		Fehler beim Login, bitte überprüfe deine Eingabe.
+	</div>
+
+	<table>
+		<tr>
+			<td style="width:100px;">Login:</td>
+			<td><input type="text" id="login" /></td>
+		</tr>
+		<tr>
+			<td>Passwort:</td>
+			<td><input type="password" id="pwd" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><button id="dologin">Login</button></td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript" src="assets/js/sha256.js"></script>
+<script type="text/javascript" src="assets/js/user.js"></script>
+
+{{template "foot.html" .}}

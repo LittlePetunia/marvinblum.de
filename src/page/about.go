@@ -27,7 +27,7 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := newPage()
+	page := newPage(r)
 	page.Title = about_content_title
 	page.Content = template.HTML(content)
 	err = tpl.Execute(w, page)

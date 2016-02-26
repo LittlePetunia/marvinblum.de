@@ -1,9 +1,8 @@
 package main
 
 import (
+	"cfg"
 	"db"
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -15,44 +14,17 @@ const (
 	public_dir  = "public"
 )
 
-type config struct {
-	Host      string `json:"host"`       // e.g. localhost:1234
-	DbHost    string `json:"dbhost"`     // MongoDB host with port
-	Db        string `json:"db"`         // MongoDB database to use
-	LogFile   string `json:"logfile"`    // optional
-	Login     string `json:"login"`      // login to page
-	PwdSha256 string `json:"pwd_sha256"` // SHA256 password for login
-}
-
 var (
-	cfg config
+	config cfg.Config
 )
-
-// Loads config from json.
-func loadConfig(file string) {
-	cfg = config{}
-
-	// read
-	log.Print("Loading config file: ", file)
-	content, err := ioutil.ReadFile(file)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// parse
-	if err := json.Unmarshal(content, &cfg); err != nil {
-		panic(err)
-	}
-}
 
 // Log to file if logfile name is set.
 func logToFile() *os.File {
-	if cfg.LogFile == "" {
+	if config.LogFile == "" {
 		return nil
 	}
 
-	handle, err := os.Create(cfg.LogFile)
+	handle, err := os.Create(config.LogFile)
 
 	if err != nil {
 		panic(err)
@@ -65,7 +37,7 @@ func logToFile() *os.File {
 
 // Starts the REST server.
 func startServer() {
-	log.Print("Starting server on ", cfg.Host)
+	log.Print("Starting server on ", config.Host)
 
 	mux := http.NewServeMux()
 	mux.Handle("/assets/", http.FileServer(http.Dir(public_dir)))
@@ -74,27 +46,29 @@ func startServer() {
 
 	mux.HandleFunc("/article/", page.ArticleHandler)
 	mux.HandleFunc("/articles", page.ArticlesHandler)
-	mux.HandleFunc("/addArticle", page.AddArticleHandler)
-	mux.HandleFunc("/saveArticle", page.SaveArticleHandler)
+	mux.Handle("/addArticle", page.SessionMiddleware(http.HandlerFunc(page.AddArticleHandler)))
+	mux.Handle("/saveArticle", page.SessionMiddleware(http.HandlerFunc(page.SaveArticleHandler)))
 	mux.HandleFunc("/search", page.SearchArticleHandler)
-
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
-	mux.HandleFunc("/removeComment", page.RemoveCommentHandler) // TODO middleware
+	mux.Handle("/removeComment", page.SessionMiddleware(http.HandlerFunc(page.RemoveCommentHandler)))
 
-	if err := http.ListenAndServe(cfg.Host, mux); err != nil {
+	mux.HandleFunc("/login", page.LoginHandler)
+	mux.Handle("/logout", page.SessionMiddleware(http.HandlerFunc(page.LogoutHandler)))
+
+	if err := http.ListenAndServe(config.Host, mux); err != nil {
 		panic(err)
 	}
 }
 
 func main() {
-	loadConfig(config_file)
+	config = cfg.Load(config_file)
 	log := logToFile()
 
 	if log != nil {
 		defer log.Close()
 	}
 
-	db.Connect(cfg.DbHost, cfg.Db)
+	db.Connect(config.DbHost, config.Db)
 	defer db.Disconnect()
 	startServer()
 }

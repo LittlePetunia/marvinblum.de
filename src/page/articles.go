@@ -32,7 +32,7 @@ func ArticlesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := newPage()
+	page := newPage(r)
 	page.Title = articles_content_title
 	pageWithArticles := articlesPage{*page, *blog.GetArticles(0, false)}
 	err = tpl.Execute(w, pageWithArticles)
@@ -51,7 +51,7 @@ func SearchArticleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	search := r.FormValue("search")
-	page := newPage()
+	page := newPage(r)
 	page.Title = search_content_title
 	pageWithArticles := articlesPage{*page, *blog.SearchArticles(search)}
 	pageWithArticlesAndSearch := articleSearchPage{pageWithArticles, search}

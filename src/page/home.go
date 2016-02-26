@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := newPage()
+	page := newPage(r)
 	page.Title = articles_content_title
 	pageWithArticles := articlesPage{*page, *blog.GetArticles(home_new_article_n, false)}
 	err = tpl.Execute(w, pageWithArticles)
