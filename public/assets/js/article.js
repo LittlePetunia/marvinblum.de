@@ -63,4 +63,17 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	// remove article
+	$('#removeArticle').click(function(){
+		var article = $('#article').val();
+
+		$.post('/removeArticle', JSON.stringify({id: article}), function(resp){
+			var json = JSON.parse(resp);
+
+			if(json.success){
+				window.location = '/';
+			}
+		})
+	});
 });

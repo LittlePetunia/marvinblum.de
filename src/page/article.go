@@ -46,6 +46,10 @@ type saveArticle struct {
 	Content string `json:"content"`
 }
 
+type removeArticle struct {
+	Id string `json:"id"`
+}
+
 type response struct {
 	Success bool `json:"success"`
 }
@@ -189,6 +193,21 @@ func SaveArticleHandler(w http.ResponseWriter, r *http.Request) {
 		resp.Success = blog.SaveArticle(article)
 	}
 
+	respJson, _ := json.Marshal(resp)
+	w.Write(respJson)
+}
+
+func RemoveArticleHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	remove := removeArticle{}
+
+	if err := decoder.Decode(&remove); err != nil {
+		log.Print(err)
+		return
+	}
+
+	resp := response{}
+	resp.Success = blog.RemoveArticleById(remove.Id)
 	respJson, _ := json.Marshal(resp)
 	w.Write(respJson)
 }

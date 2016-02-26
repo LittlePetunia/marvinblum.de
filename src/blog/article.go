@@ -130,3 +130,20 @@ func SearchArticles(search string) *[]Article {
 
 	return &articles
 }
+
+// Removes an article by ID.
+func RemoveArticleById(id string) bool {
+	if !db.IsValidId(id) {
+		log.Print("ID ", id, " is not valid")
+		return false
+	}
+
+	err := db.Get().C("article").Remove(bson.M{"_id": bson.ObjectIdHex(id)})
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
+}

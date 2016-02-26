@@ -48,6 +48,7 @@ func startServer() {
 	mux.HandleFunc("/articles", page.ArticlesHandler)
 	mux.Handle("/addArticle", page.SessionMiddleware(http.HandlerFunc(page.AddArticleHandler)))
 	mux.Handle("/saveArticle", page.SessionMiddleware(http.HandlerFunc(page.SaveArticleHandler)))
+	mux.Handle("/removeArticle", page.SessionMiddleware(http.HandlerFunc(page.RemoveArticleHandler)))
 	mux.HandleFunc("/search", page.SearchArticleHandler)
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
 	mux.Handle("/removeComment", page.SessionMiddleware(http.HandlerFunc(page.RemoveCommentHandler)))
