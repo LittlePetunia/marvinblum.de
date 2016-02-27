@@ -9,3 +9,4 @@
 * ~~asset upload~~
 * ~~article search function~~
 * ~~remove article~~
+* session lifetime is not checked
