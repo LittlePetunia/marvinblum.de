@@ -12,3 +12,5 @@
 * ~~article search function~~
 * ~~remove article~~
 * session lifetime is not checked
+* image on article top is to large
+
