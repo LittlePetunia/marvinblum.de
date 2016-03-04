@@ -1,5 +1,5 @@
 {{template "head.html" .}}
-<div class="content bg-white shadow">
+<div class="content bg-white shadow relative">
 	{{if .LoggedIn}}
 		<h3>Artikel bearbeiten</h3>
 
@@ -30,18 +30,27 @@
 		<button id="removeArticle" class="right">Artikel löschen</button>
 	{{end}}
 
-	{{if .Article.Picture}}
-		<img src="{{.Article.Picture}}" alt="" />
-	{{end}}
+	<div class="article-date-large">
+		<span style="font-size:24px;">{{.Article.Created.Day}}.</span><br />
+		{{.Article.Created.Month}}<br />
+		{{.Article.Created.Year}}<br />
+	</div>
 
 	<h1>{{.Article.Title}}</h1>
-	<span class="article-date">
+
+	<div class="article-date">
 		Erstellt am {{.Article.Created.Day}}. {{.Article.Created.Month}} {{.Article.Created.Year}} | Zuletzt geändert am {{.Article.Updated.Day}}. {{.Article.Updated.Month}} {{.Article.Updated.Year}}
-	</span>
+	</div>
 
 	<span style="font-weight:bold;">{{.Article.Headline}}</span>
 
+	{{if .Article.Picture}}
+		<img src="{{.Article.Picture}}" alt="" class="head-image" />
+	{{end}}
+
 	{{.Article.Content}}
+
+	<div class="clear"></div>
 </div>
 
 <div class="content bg-white shadow">

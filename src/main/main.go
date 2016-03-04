@@ -42,7 +42,6 @@ func startServer() {
 	mux := http.NewServeMux()
 	mux.Handle("/assets/", http.FileServer(http.Dir(public_dir)))
 	mux.HandleFunc("/", page.HomeHandler)
-	mux.HandleFunc("/about", page.AboutHandler)
 
 	mux.HandleFunc("/article/", page.ArticleHandler)
 	mux.HandleFunc("/articles", page.ArticlesHandler)
