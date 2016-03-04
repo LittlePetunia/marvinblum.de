@@ -1,0 +1,42 @@
+{{template "head.html" .}}
+
+<div class="content bg-white shadow">
+	<h1>Artikel</h1>
+
+	{{if .LoggedIn}}
+		<h3>Neuer Artikel</h3>
+
+		<div class="error" id="article_input_error">
+			Bitte überprüfe deine Eingabe. Die Felder Titel und URL müssen gefüllt sein.
+		</div>
+
+		<label>Titel:</label>
+		<input type="text" id="title" />
+		<label>URL (z.B.: Mein_Artikel):</label>
+		<input type="text" id="link" />
+		<label>Bild (URL):</label>
+		<input type="text" id="picture" />
+		<label>Headline</label>
+		<textarea id="headline"></textarea>
+		<br />
+		<button id="create">Erstellen</button>
+
+		<hr />
+
+		<script type="text/javascript">
+			CKEDITOR.replace('headline');
+		</script>
+	{{end}}
+
+	{{if .Articles}}
+		{{range $article := .Articles}}
+			<h3>
+				<a href="/article/{{$article.Link}}">{{$article.Title}}</a> - {{$article.Created.Day}}. {{$article.Created.Month}} {{$article.Created.Year}}
+			</h3>
+		{{end}}
+	{{else}}
+		Keine Artikel gefunden.
+	{{end}}
+</div>
+
+{{template "foot.html" .}}

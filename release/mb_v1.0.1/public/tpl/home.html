@@ -1,0 +1,33 @@
+{{template "head.html" .}}
+
+{{if .Articles}}
+	{{range $article := .Articles}}
+		<div class="bg-white shadow article relative" style="margin-top:10px;">
+			<div class="wrapper">
+				{{if $article.Picture}}
+					<img src="{{$article.Picture}}" alt="" />
+				{{end}}
+
+				<h2><a href="/article/{{$article.Link}}">{{$article.Title}}</a></h2>
+				<div class="article-date-small">
+					<span style="font-size:16px;">{{$article.Created.Day}}.</span><br />
+					{{$article.Created.Month}}<br />
+					{{$article.Created.Year}}
+				</div>
+
+				{{$article.Headline}}
+			</div>
+		</div>
+	{{end}}
+
+	<div class="clear"></div>
+{{else}}
+	<div class="content bg-white shadow">
+		<h1>marvinblum.de</h1>
+
+		Willkommen auf meinem Blog. Hier schreibe ich Artikel zum Thema Software Entwicklung und Technologien.<br />
+		Aktuell existieren noch keine Artikel, schau doch später vorbei!
+	</div>
+{{end}}
+
+{{template "foot.html" .}}
