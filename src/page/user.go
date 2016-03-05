@@ -6,18 +6,14 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"session"
 	"strings"
-	"sync"
+	"util"
 )
 
 const (
 	config_file         = "config.json"
 	login_template_file = "public/tpl/login.html"
 	login_content_title = "marvinblum.de - Login"
-
-	cookie_name  = "mb_login"
-	max_lifetime = 14400 // 4 hours
 )
 
 type loginRequest struct {
@@ -29,11 +25,6 @@ type loginResponse struct {
 	Success bool   `json:"success"`
 	Token   string `json:"token"`
 }
-
-var (
-	m           sync.Mutex
-	userSession session.Session
-)
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -78,19 +69,13 @@ func performLogin(w http.ResponseWriter, r *http.Request) {
 	resp := loginResponse{false, ""}
 
 	if strings.ToLower(login.Login) == config.Login && login.Password == config.PwdSha256 {
-		m.Lock()
-		userSession.Login(login.Login, login.Password)
-		m.Unlock()
+		sm := util.GetSessionManager()
+		_, err := sm.CreateSession(w, r)
 
-		resp.Success = true
-
-		// create cookie
-		cookie, _ := r.Cookie(cookie_name)
-		cookie = &http.Cookie{Name: cookie_name,
-			Value:    userSession.GetToken(),
-			MaxAge:   max_lifetime,
-			HttpOnly: true}
-		http.SetCookie(w, cookie)
+		if err == nil {
+			log.Print("User logged in")
+			resp.Success = true
+		}
 	}
 
 	respJson, _ := json.Marshal(resp)
@@ -98,31 +83,12 @@ func performLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	m.Lock()
-	userSession.Logout()
-	m.Unlock()
+	sm := util.GetSessionManager()
+	session, err := sm.GetCurrentSession(r)
+
+	if err == nil {
+		session.Destroy(w, r)
+	}
+
 	http.Redirect(w, r, "/", 301)
-}
-
-// Middleware to check user session.
-func SessionMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// check cookie
-		cookie, err := r.Cookie(cookie_name)
-
-		if err != nil {
-			w.Write([]byte("Not logged in!"))
-			return
-		}
-
-		token := cookie.Value
-
-		if !userSession.LoggedIn(token) {
-			w.Write([]byte("Not logged in!"))
-			return
-		}
-
-		// go on
-		next.ServeHTTP(w, r)
-	})
 }

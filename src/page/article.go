@@ -118,6 +118,11 @@ func AddCommentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RemoveCommentHandler(w http.ResponseWriter, r *http.Request) {
+	if !util.IsLoggedIn(r) {
+		log.Print("User not logged in")
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	remove := removeComment{}
 
@@ -139,6 +144,11 @@ func RemoveCommentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
+	if !util.IsLoggedIn(r) {
+		log.Print("User not logged in")
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	add := addArticle{}
 
@@ -162,6 +172,11 @@ func AddArticleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SaveArticleHandler(w http.ResponseWriter, r *http.Request) {
+	if !util.IsLoggedIn(r) {
+		log.Print("User not logged in")
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	save := saveArticle{}
 
@@ -198,6 +213,11 @@ func SaveArticleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RemoveArticleHandler(w http.ResponseWriter, r *http.Request) {
+	if !util.IsLoggedIn(r) {
+		log.Print("User not logged in")
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	remove := removeArticle{}
 

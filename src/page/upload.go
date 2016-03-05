@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"util"
 )
 
 const (
@@ -30,6 +31,11 @@ type filePage struct {
 }
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	if !util.IsLoggedIn(r) {
+		log.Print("User not logged in")
+		return
+	}
+
 	if r.Method == "GET" {
 		uploadPage(w, r)
 	} else {

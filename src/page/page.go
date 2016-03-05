@@ -4,6 +4,7 @@ import (
 	"blog"
 	"html/template"
 	"net/http"
+	"util"
 )
 
 type page struct {
@@ -19,12 +20,8 @@ func newPage(r *http.Request) *page {
 	page.NewArticles = *blog.GetArticles(bar_new_article_n, false)
 	page.LoggedIn = false
 
-	// check logged in
-	cookie, err := r.Cookie(cookie_name)
-
-	if err == nil {
-		token := cookie.Value
-		page.LoggedIn = userSession.LoggedIn(token)
+	if util.IsLoggedIn(r) {
+		page.LoggedIn = true
 	}
 
 	return &page

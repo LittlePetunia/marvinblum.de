@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"page"
+	"util"
 )
 
 const (
@@ -45,15 +46,15 @@ func startServer() {
 
 	mux.HandleFunc("/article/", page.ArticleHandler)
 	mux.HandleFunc("/articles", page.ArticlesHandler)
-	mux.Handle("/addArticle", page.SessionMiddleware(http.HandlerFunc(page.AddArticleHandler)))
-	mux.Handle("/saveArticle", page.SessionMiddleware(http.HandlerFunc(page.SaveArticleHandler)))
-	mux.Handle("/removeArticle", page.SessionMiddleware(http.HandlerFunc(page.RemoveArticleHandler)))
+	mux.Handle("/addArticle", http.HandlerFunc(page.AddArticleHandler))
+	mux.Handle("/saveArticle", http.HandlerFunc(page.SaveArticleHandler))
+	mux.Handle("/removeArticle", http.HandlerFunc(page.RemoveArticleHandler))
 	mux.HandleFunc("/search", page.SearchArticleHandler)
 	mux.HandleFunc("/addComment", page.AddCommentHandler)
-	mux.Handle("/removeComment", page.SessionMiddleware(http.HandlerFunc(page.RemoveCommentHandler)))
+	mux.Handle("/removeComment", http.HandlerFunc(page.RemoveCommentHandler))
 	mux.HandleFunc("/login", page.LoginHandler)
-	mux.Handle("/logout", page.SessionMiddleware(http.HandlerFunc(page.LogoutHandler)))
-	mux.Handle("/upload", page.SessionMiddleware(http.HandlerFunc(page.UploadHandler)))
+	mux.Handle("/logout", http.HandlerFunc(page.LogoutHandler))
+	mux.Handle("/upload", http.HandlerFunc(page.UploadHandler))
 
 	if err := http.ListenAndServe(config.Host, mux); err != nil {
 		panic(err)
@@ -70,5 +71,6 @@ func main() {
 
 	db.Connect(config.DbHost, config.Db)
 	defer db.Disconnect()
+	util.StartSessionManager()
 	startServer()
 }
