@@ -70,10 +70,10 @@ func performLogin(w http.ResponseWriter, r *http.Request) {
 
 	if strings.ToLower(login.Login) == config.Login && login.Password == config.PwdSha256 {
 		sm := util.GetSessionManager()
-		_, err := sm.CreateSession(w, r)
+		session, err := sm.CreateSession(w, r)
 
 		if err == nil {
-			log.Print("User logged in")
+			log.Print("User logged in with session token " + session.GetToken())
 			resp.Success = true
 		}
 	}

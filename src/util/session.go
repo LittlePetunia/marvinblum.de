@@ -14,6 +14,7 @@ var (
 	sessionManager *session.Manager
 )
 
+// Starts the session manager.
 func StartSessionManager() {
 	sm, err := session.NewManager(cookie_name, max_lifetime, session.NewMemProvider())
 
@@ -25,11 +26,17 @@ func StartSessionManager() {
 	sessionManager = sm
 }
 
+// Returns the session manager.
 func GetSessionManager() *session.Manager {
 	return sessionManager
 }
 
+// Returns true if user is logged in for request, else false.
 func IsLoggedIn(r *http.Request) bool {
+	if r == nil {
+		return false
+	}
+
 	session, _ := sessionManager.GetCurrentSession(r)
 	return session.IsValid()
 }
