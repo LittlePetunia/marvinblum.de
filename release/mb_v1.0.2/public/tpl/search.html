@@ -1,0 +1,25 @@
+{{template "head.html" .}}
+
+<div class="content bg-white shadow">
+	<h1>Suchergebnisse</h1>
+
+	<form action="/search" method="post">
+		Suche: <input type="text" name="search" value="{{.Search}}" />
+		<input type="submit" value="Los" />
+	</form>
+
+	<hr />
+
+	{{range $article := .Articles}}
+		<h3>
+			<a href="/article/{{$article.Link}}">{{$article.Title}}</a> - {{$article.Created.Day}}. {{$article.Created.Month}} {{$article.Created.Year}}
+		</h3>
+
+		{{$article.Headline}}
+		<hr />
+	{{else}}
+		Keine Artikel gefunden.
+	{{end}}
+</div>
+
+{{template "foot.html" .}}

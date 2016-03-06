@@ -1,0 +1,24 @@
+{{template "head.html" .}}
+
+<div class="content bg-white shadow">
+	<h1>Upload</h1>
+
+	<h2>Datei hochladen</h2>
+
+	<form action="/upload" enctype="multipart/form-data" method="post">
+		<input type="file" name="file" />
+		<input type="submit" value="Hochladen" />
+	</form>
+
+	<hr />
+
+	<h2>Dateien</h2>
+
+	{{range $file := .Files}}
+		<a href="{{$file.URL}}" target="_blank">{{$file.Name}}</a><br />
+	{{else}}
+		Keine Dateien gefunden.
+	{{end}}
+</div>
+
+{{template "foot.html" .}}
