@@ -69,7 +69,7 @@ func main() {
 		defer log.Close()
 	}
 
-	db.Connect(config.DbHost, config.Db)
+	db.Connect(config.DbHost, config.Db, config.DbUser, config.DbPwd)
 	defer db.Disconnect()
 	util.StartSessionManager()
 	startServer()

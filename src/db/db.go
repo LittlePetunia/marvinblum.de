@@ -3,6 +3,7 @@ package db
 import (
 	"gopkg.in/mgo.v2"
 	"log"
+	"time"
 )
 
 var (
@@ -12,10 +13,17 @@ var (
 
 // Connects to MongoDB database. Will panic on error.
 // Pass host and database to use.
-func Connect(host, database string) {
+func Connect(host, database, user, pwd string) {
 	// connect
 	log.Print("Connecting to database at ", host)
-	session, err := mgo.Dial(host)
+
+	info := &mgo.DialInfo{
+		Addrs:    []string{host},
+		Timeout:  60 * time.Second,
+		Database: database,
+		Username: user,
+		Password: pwd}
+	session, err := mgo.DialWithInfo(info)
 
 	if err != nil {
 		panic(err)
